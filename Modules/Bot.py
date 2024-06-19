@@ -3,7 +3,9 @@ from difflib import SequenceMatcher
 import platform
 from selenium import webdriver
 from selenium.common.exceptions import InvalidSessionIdException, WebDriverException, NoSuchElementException
-from selenium.webdriver.firefox.options import Options
+#from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
+
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.WARNING)
 
@@ -24,8 +26,13 @@ class Bot:
     def __init__(self, headless=False):
         self.options = Options()
         self.options.headless = headless
-        self.driver = webdriver.Firefox(options=self.options)
-        self.driver.implicitly_wait('5')
+        #self.driver = webdriver.Firefox(options=self.options)
+        #self.driver = webdriver.Firefox(executable_path="C:\\Users\\phamv\\Downloads\\geckodriver-v0.34.0-win-aarch64\\geckodriver.exe",options=self.options)
+        self.driver = webdriver.Chrome(options=self.options)
+        #self.driver = webdriver.Chrome(executable_path="C:\\Users\\phamv\\Downloads\\geckodriver-v0.34.0-win-aarch64\\geckodriver.exe",options=self.options)
+        #driver = webdriver.Chrome(r"C:\Users\phamv\Downloads\chromedriver_win32/chromedriver.exe")
+        self.driver = webdriver.Chrome(executable_path=r'C:\Users\phamv\Downloads\chromedriver_win32/chromedriver.exe', options=self.options)
+        self.driver.implicitly_wait(5)
         self.logged_in = False
 
     def __del__(self):
@@ -57,6 +64,7 @@ class Bot:
                     return 'Failed to login'
             except NoSuchElementException and WebDriverException as e:
                 logging.error(e)
+                return 'Hahahahaha'
         return 'Already logged in'
 
     def postToUrl(self, message='', media_path='', url='http://mbasic.facebook.com'):
